@@ -1,30 +1,26 @@
 #ifndef ESPSERVER_H
 #define ESPSERVER_H
 
-#include <WebServer.h>
+#include <ESPAsyncWebServer.h>
+#include <Lock.h>
+#include <WiFiUdp.h>
+#include <NTPClient.h>
+#include <SPIFFS.h>
 
 class ESPServer {
 public:
-  ESPServer(int port, int maxVisitors);
+  ESPServer(int port, Lock& lock);
   void begin();
   void handleClient();
-  void updateNum(int amount);
-  void updateMax(int amount);
-  void addVisitor(String name);
-  void removeVisitor(String name);
   
   
   
 private:
-  WebServer *_server;
-  int _currentVisitors;
-  int _maxVisitors;
-  String _visitors[1000];
-  int _numVisitors;
+  AsyncWebServer *_server;
+  Lock& _lock;
+  
   
   void generateHTML();
-  String getMonthName(int month);
-  String getTimeString(int hour, int minute, int second);
   
 };
 
