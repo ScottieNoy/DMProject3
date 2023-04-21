@@ -4,17 +4,19 @@
 #include <Arduino.h>
 #include <Stepper.h>
 
+#define STEPS 2048
+#define UNLOCKTIME 5000
 
 class Lock {
 public:
-  Lock(int steptPerRevolution, int p1, int p2, int p3, int p4);
+  Lock(int stepsPerRevolultion, int IN1, int IN2, int IN3, int IN4);
   void unlock();
-  
-  
+  void update();
+  bool isLocked();
   
 private:
     Stepper _stepper;
-    int _currentTime;
+    bool _locked;
+    unsigned long _unlockTime;
 };
-
 #endif // LOCK_H
