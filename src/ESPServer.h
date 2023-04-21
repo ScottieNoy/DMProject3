@@ -5,7 +5,7 @@
 
 class ESPServer {
 public:
-  ESPServer(int port, int maxVisitors);
+  ESPServer(int port);
   void begin();
   void handleClient();
   void updateNum(int amount);

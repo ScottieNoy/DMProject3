@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Smart Door Lock</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<style>
+		body {
+			font-family: Arial, sans-serif;
+			margin: 0;
+			padding: 0;
+			background-color: #F0F0F0;
+		}
+		.container {
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+			justify-content: center;
+			height: 100vh;
+		}
+		.button {
+			display: inline-block;
+			padding: 10px 20px;
+			font-size: 16px;
+			font-weight: bold;
+			text-align: center;
+			text-decoration: none;
+			color: #FFFFFF;
+			background-color: #4CAF50;
+			border-radius: 5px;
+			border: none;
+			box-shadow: 0 2px 2px rgba(0, 0, 0, 0.3);
+			cursor: pointer;
+		}
+		.button:active {
+			box-shadow: 0 1px 1px rgba(0, 0, 0, 0.3);
+			transform: translateY(2px);
+		}
+		.locked {
+			color: #FFFFFF;
+			background-color: #F44336;
+		}
+		.unlocked {
+			color: #FFFFFF;
+			background-color: #4CAF50;
+		}
+	</style>
+</head>
+<body>
+	<div class="container">
+		<h1>Smart Door Lock</h1>
+		<button id="lockButton" class="button unlocked" onclick="toggleLock()">Unlock</button>
+	</div>
+
+	<script>
+		var locked = false;
+
+		function toggleLock() {
+			if (locked) {
+				// Unlock the door
+				fetch('/unlock')
+					.then(response => {
+						if (response.ok) {
+							locked = false;
+							document.getElementById('lockButton').innerHTML = 'Unlock';
+							document.getElementById('lockButton').classList.remove('locked');
+							document.getElementById('lockButton').classList.add('unlocked');
+						} else {
+							console.error('Failed to unlock the door');
+						}
+					})
+					.catch(error => {
+						console.error('Failed to unlock the door', error);
+					});
+			} else {
+				// Lock the door
+				fetch('/lock')
+					.then(response => {
+						if (response.ok) {
+							locked = true;
+							document.getElementById('lockButton').innerHTML = 'Lock';
+							document.getElementById('lockButton').classList.remove('unlocked');
+							document.getElementById('lockButton').classList.add('locked');
+						} else {
+							console.error('Failed to lock the door');
+						}
+					})
+					.catch(error => {
+						console.error('Failed to lock the door', error);
+					});
+			}
+		}
+	</script>
+</body>
+</html>

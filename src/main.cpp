@@ -6,7 +6,7 @@
 
 char* ssid = "Oscar";
 char* password = "oscar12345";
-ESPServer server(80, 10);
+ESPServer server(80);
 
 /// ---------------------------------- ///
 
