@@ -7,11 +7,12 @@
 #include <NTPClient.h>
 #include <SPIFFS.h>
 
+#define BUTTONTIMEOUT 15000
+
 class ESPServer {
 public:
   ESPServer(int port, Lock& lock);
   void begin();
-  void handleClient();
   
   
   

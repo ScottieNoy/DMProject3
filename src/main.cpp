@@ -11,10 +11,10 @@
 
 /// --------- WiFi credentials -------- ///
 
-char* ssid = "Oscar";
-char* password = "oscar12345";
+char* ssid = "ThenumNet";
+char* password = "hundested";
 Lock lock(stepsPerRevolultion, IN1, IN3, IN2, IN4);
-// ESPServer server(80, lock);
+ESPServer server(80, lock);
 
 
 /// ---------------------------------- ///
@@ -24,12 +24,12 @@ void setup() {
   // put your setup code here, to run once:
   Serial.begin(115200);
   connect(ssid, password);
-  // server.begin();
-  // Serial.println("Server started");
-  lock.unlock();
-
+  server.begin();
+  Serial.println("Server Running");
+  lock.isLocked();
 }
 
 void loop() {
   // put your main code here, to run repeatedly:
+  lock.update();
 }
