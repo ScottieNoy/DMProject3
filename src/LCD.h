@@ -15,4 +15,4 @@ public:
 private:
   LiquidCrystal_I2C lcd;
 };
-#endif LCD_H
+#endif //LCD_H
