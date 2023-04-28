@@ -1,4 +1,3 @@
-// Liberies included:
 #include "connectWiFi.h"
 #include <WiFi.h>
 
@@ -18,8 +17,4 @@ void connect(char* ssid, char* password) {
   Serial.println(ssid);                           // Print the network name (SSID)
   Serial.print("IP address: ");                   // Print a message "IP address: "
   Serial.println(WiFi.localIP());                 // Print the IP address
-}
-
-bool isConnected() {
-  return WiFi.status() == WL_CONNECTED;
 }

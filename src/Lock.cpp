@@ -25,3 +25,11 @@ void Lock::update() {
 bool Lock::isLocked() {
     return _locked;
 }
+
+void Lock::updateMax(int maxCustomers) {
+    _maxCustomers = maxCustomers;
+}
+
+int Lock::getMax() {
+    return _maxCustomers;
+}

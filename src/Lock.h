@@ -4,6 +4,7 @@
 #include <Arduino.h>
 #include <Stepper.h>
 
+
 #define STEPS 2048
 #define UNLOCKTIME 5000
 
@@ -13,10 +14,12 @@ public:
   void unlock();
   void update();
   bool isLocked();
-  
+  void updateMax(int maxCustomers);
+  int getMax();
 private:
     Stepper _stepper;
     bool _locked;
     unsigned long _unlockTime;
+    int _maxCustomers;
 };
 #endif // LOCK_H
