@@ -1,4 +1,4 @@
-#include "LCD.h"
+ #include "LCD.h"
 
 LCD::LCD(int address, int columns, int rows) : lcd(address, columns, rows)
 {
@@ -21,6 +21,7 @@ void LCD::write(String text1, String text2)
   lcd.clear();
   lcd.setCursor(0,0);    lcd.print(text1); 
   lcd.setCursor(0,1);    lcd.print(text2);
+  
 }
 //===========================================================
 
