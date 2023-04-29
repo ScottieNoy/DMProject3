@@ -6,8 +6,9 @@
 #include <Lock.h>
 #include <SPI.h>
 #include <MFRC522.h>
+#include <LCD.h>
 
-
+extern LCD lcd;
 
 class RFID {
 public:
@@ -15,7 +16,7 @@ public:
     RFID(Lock& lock, int SS_pin, int RST_pin);
     bool findTag(byte *uid, int uidSize);
     void removeTag(byte *uid, int uidSize);
-    void printNUID(byte *uid, int uidSize);
+    String getNUID(byte *uid, int uidSize);
     void grantAccess(byte *uid, int uidSize);
     void removeAccess(byte *uid, int uidSize);
     void RMain();

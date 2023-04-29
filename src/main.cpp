@@ -41,7 +41,7 @@
 char* ssid = "homeweb";                                              // WiFi Name
 char* password = "Samuel42";                                         // WiFi Password
 
-// ===================== Global Variables ========================== //
+// ====================== Global Objects =========================== //
 
 Lock lock(stepsPerRevolultion, IN1, IN3, IN2, IN4);                  // Lock Object
 ESPServer server(80, lock);                                          // Server Object
@@ -55,7 +55,8 @@ ConnectWiFi wifi;                                                    // WiFi Obj
 void setup() {                                                       // Setup
   Serial.begin(115200);                                              // Start Serial Monitor
   lcd.setupLCD();                                                    // Setup LCD
-  wifi.connect(ssid, password);                                  // Connect to WiFi
+  lcd.writeLCD("Starting", "System");                                // Print to LCD
+  wifi.connect(ssid, password);                                      // Connect to WiFi
   while(wifi.isConnected() == false) {                               // While not connected to WiFi
     lcd.writeLCD("Connecting to", ssid);                             // Print to LCD
     delay(1000);                                                     // Wait 1000ms
@@ -64,7 +65,7 @@ void setup() {                                                       // Setup
   delay(1000);                                                       // Wait 1000ms
   server.begin();                                                    // Start Server
   Serial.println("Server Running");                                  // Print to Serial Monitor
-  lcd.writeLCD("Server Running", "");                                // Print to LCD
+  lcd.writeLCD("Server Running:", "192.168.68.128");                // Print to LCD *******NOT WORKING: CONVERTING wifi.getIP WRONG********
 
 }
 
@@ -73,7 +74,7 @@ void loop() {                                                        // Loop
   lock.update();                                                     // Lock Update
   control.adjustMax();                                               // Adjust Max Speed
   if(!wifi.isConnected()) {                                          // If not connected to WiFi
-    wifi.connect(ssid, password);                                // Connect to WiFi
+    wifi.connect(ssid, password);                                    // Connect to WiFi
   }
 }
 // ===================== End of File =============================== //

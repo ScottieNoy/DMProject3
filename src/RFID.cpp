@@ -4,7 +4,6 @@
 #include "Lock.h"
 
 
-
 RFID::RFID(Lock& lock, int SS_PIN, int RST_PIN) : _rfid(SS_PIN, RST_PIN), _lock(lock) {
     _custIns = 0;
     SPI.begin();
@@ -48,17 +47,18 @@ void RFID::removeTag(byte *uid, int uidSize) {
   }
 }
 
-void RFID::printNUID(byte *uid, int uidSize) {
+String RFID::getNUID(byte *uid, int uidSize) {
+  String nuid = "";
   for (int i = 0; i < uidSize; i++) {
     if (uid[i] < 0x10) {
-      Serial.print("0");
+      nuid += "0";
     }
-    Serial.print(uid[i], HEX);
+    nuid += String(uid[i], HEX);
     if (i < uidSize - 1) {
-      Serial.print(":");
+      nuid += ":";
     }
   }
-  Serial.println();
+  return nuid;
 }
 
 // Add a new tag to the existingTags array
@@ -75,32 +75,52 @@ void RFID::RMain() {
   if (!_rfid.PICC_ReadCardSerial()) return;
 
   Serial.print("UID tag: ");
-  printNUID(_rfid.uid.uidByte, _rfid.uid.size);
+  Serial.print(getNUID(_rfid.uid.uidByte, _rfid.uid.size));
+  lcd.write_TOP_LCD("UID tag: ");
+  lcd.write_BOT_LCD(getNUID(_rfid.uid.uidByte, _rfid.uid.size));
+  delay(2000);
 
   if (!tagAllowed(_rfid.uid.uidByte, _rfid.uid.size)) {
     Serial.println("Access denied. Tag not allowed.");
+    lcd.writeLCD("Access denied.", "Tag not allowed.");
     _rfid.PICC_HaltA();
     _rfid.PCD_StopCrypto1();
+    delay(2000);
     return;
   }
 
   if (findTag(_rfid.uid.uidByte, _rfid.uid.size)) {
     removeTag(_rfid.uid.uidByte, _rfid.uid.size);
     Serial.println("User left. Tag removed from list.");
+    lcd.writeLCD("User left.", "Tag removed from list.");
+    _lock.unlock();
+    delay(1000);
     Serial.print("Customers inside: ");
     Serial.println(_custIns);
-    _lock.unlock();
+    lcd.write_TOP_LCD("Customers inside: ");
+    lcd.write_BOT_LCD(String(_custIns));
+    delay(2000);
 
   } else if (_custIns < _lock.getMax()) {
     addTag(_rfid.uid.uidByte, _rfid.uid.size);
     Serial.println("Access granted.");
+    lcd.writeLCD("Access granted.", "Welcome!");
+    _lock.unlock();
+    delay(1000);
     Serial.print("Customers inside: ");
     Serial.println(_custIns);
-    _lock.unlock();
+    lcd.write_TOP_LCD("Customers inside: ");
+    lcd.write_BOT_LCD(String(_custIns));
+    delay(2000);
 
   } else {
     Serial.println("Access denied. Maximum number of customers reached.");
     Serial.println(_lock.getMax());
+    lcd.writeLCD("Access denied.", "Maximum number of customers reached.");
+    delay(2000);
+    lcd.write_TOP_LCD("Maximum number:");
+    lcd.write_BOT_LCD(String(_lock.getMax()));
+    delay(2000);
 
   }
 
@@ -148,23 +168,33 @@ void RFID::removeAccess(byte *uid, int uidSize) {
 
 void RFID::updateAccess() {
   Serial.println("Place a tag to update access.");
+  lcd.writeLCD("Place a tag to", "update access.");
   _time = millis();
   while(millis()-_time < 5000) {
     if (_rfid.PICC_IsNewCardPresent() && _rfid.PICC_ReadCardSerial()){
       Serial.print("UID tag: ");
-      printNUID(_rfid.uid.uidByte, _rfid.uid.size);
+      Serial.print(getNUID(_rfid.uid.uidByte, _rfid.uid.size));
+      lcd.write_TOP_LCD("UID tag: ");
+      lcd.write_BOT_LCD(getNUID(_rfid.uid.uidByte, _rfid.uid.size));
+      delay(2000);
       if (findTag(_rfid.uid.uidByte, _rfid.uid.size)) {
         Serial.println("Sign out in order to remove access.");
+        lcd.writeLCD("Sign out in order", "to remove access.");
         _rfid.PICC_HaltA();
         _rfid.PCD_StopCrypto1();
+        delay(2000);
         return;
       }
       if (tagAllowed(_rfid.uid.uidByte, _rfid.uid.size)) {
         removeAccess(_rfid.uid.uidByte, _rfid.uid.size);
         Serial.println("Key card removed.");
+        lcd.writeLCD("Key card removed.", "");
+        delay(2000);
       } else {
         grantAccess(_rfid.uid.uidByte, _rfid.uid.size);
         Serial.println("Key card added.");
+        lcd.writeLCD("Key card added.", "");
+        delay(2000);
       }
       _rfid.PICC_HaltA();
       _rfid.PCD_StopCrypto1();
@@ -173,4 +203,6 @@ void RFID::updateAccess() {
     
   }
   Serial.print("Time limit exceeded, press button again to add/remove access.");
+  lcd.writeLCD("Time limit exceeded,", "press button again to add/remove access.");
+  delay(2000);
 }

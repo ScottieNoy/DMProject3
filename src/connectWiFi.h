@@ -4,7 +4,6 @@
 
 #include <WiFi.h>
 #include <Arduino.h>
-#include <IPAddress.h>
 
 class ConnectWiFi {
 
