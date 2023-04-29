@@ -1,6 +1,6 @@
 // ===================== Include Libraries ========================= //
 #include <Arduino.h>
-#include "connectWiFi.h"
+#include "ConnectWiFi.h"
 #include "ESPServer.h"
 #include "Lock.h"
 #include "RFID.h"
@@ -38,8 +38,8 @@
 
 // ===================== WiFi Definitions ========================== //
 
-char* ssid = "TheilvigNetwork";                                           // WiFi Name
-char* password = "tandex13";                                       // WiFi Password
+char* ssid = "homeweb";                                              // WiFi Name
+char* password = "Samuel42";                                         // WiFi Password
 
 // ===================== Global Variables ========================== //
 
@@ -48,14 +48,14 @@ ESPServer server(80, lock);                                          // Server O
 RFID rfid(lock,SS_PIN, RST_PIN);                                     // RFID Object
 Controls control(POT, BUTTON, lock, rfid);                           // Controls Object
 LCD lcd(LCD_ADDRESS, LCD_COLUMNS, LCD_ROWS);                         // LCD Object
-connectWiFi wifi(ssid, password);                                    // WiFi Object
+ConnectWiFi wifi;                                                    // WiFi Object
 
 // ===================== Setup and Loop ============================ //
 
 void setup() {                                                       // Setup
   Serial.begin(115200);                                              // Start Serial Monitor
   lcd.setupLCD();                                                    // Setup LCD
-  wifi.connect(ssid, password);                                      // Connect to WiFi
+  wifi.connect(ssid, password);                                  // Connect to WiFi
   while(wifi.isConnected() == false) {                               // While not connected to WiFi
     lcd.writeLCD("Connecting to", ssid);                             // Print to LCD
     delay(1000);                                                     // Wait 1000ms
@@ -64,7 +64,7 @@ void setup() {                                                       // Setup
   delay(1000);                                                       // Wait 1000ms
   server.begin();                                                    // Start Server
   Serial.println("Server Running");                                  // Print to Serial Monitor
-  lcd.writeLCD("Server Running", wifi.getIP());                      // Print to LCD
+  lcd.writeLCD("Server Running", "");                                // Print to LCD
 
 }
 
@@ -72,8 +72,8 @@ void loop() {                                                        // Loop
   rfid.RMain();                                                      // RFID Main
   lock.update();                                                     // Lock Update
   control.adjustMax();                                               // Adjust Max Speed
-  if(!wifi.isConnected()) {                                               // If not connected to WiFi
-    wifi.connect(ssid, password);                                         // Connect to WiFi
+  if(!wifi.isConnected()) {                                          // If not connected to WiFi
+    wifi.connect(ssid, password);                                // Connect to WiFi
   }
 }
 // ===================== End of File =============================== //
