@@ -28,8 +28,11 @@
 
 // ===================== RFID Pin Definitions ====================== //
 
-#define SS_PIN   5                                                   // RFID Pin
+#define SS_PIN   5                                                   // RFID Pin (SDA)
+#define SCK_PIN  18                                                  // RFID Pin (SCK)
 #define RST_PIN  16                                                  // RFID Pin
+
+// MOSI = 23, MISO = 19                                              // RFID Pin MOSI, MISO
 
 // ===================== Button Pin Definitions ==================== //
 
@@ -65,7 +68,8 @@ void setup() {                                                       // Setup
   delay(1000);                                                       // Wait 1000ms
   server.begin();                                                    // Start Server
   Serial.println("Server Running");                                  // Print to Serial Monitor
-  lcd.writeLCD("Server Running:", "192.168.68.128");                // Print to LCD *******NOT WORKING: CONVERTING wifi.getIP WRONG********
+  lcd.writeLCD("Server Running:", "192.168.68.128");                 // Print to LCD *******NOT WORKING: CONVERTING wifi.getIP WRONG********
+  delay(1000);                                                       // Wait 1000ms
 
 }
 

@@ -14,6 +14,7 @@ void Controls::adjustMax(){
     if (_previousMax != potValue){
         _lock.updateMax(potValue);
         Serial.println("Max changed to: " + String(potValue));
+        lcd.writeLCD("Max changed to: ", String(potValue));
     }
     _interrupt_time = millis();
     // If interrupts come faster than 200ms, assume it's a bounce and ignore

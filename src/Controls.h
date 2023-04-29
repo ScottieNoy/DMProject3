@@ -1,6 +1,10 @@
 #include <SPI.h>
 #include <RFID.h>
 #include <Lock.h>
+#include <LCD.h>
+
+extern LCD lcd;
+
 class Controls{
 public:
     Controls(int inp,int butPin, Lock& lock, RFID& rfid);

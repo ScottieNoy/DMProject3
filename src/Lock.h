@@ -3,10 +3,13 @@
 
 #include <Arduino.h>
 #include <Stepper.h>
+#include <LCD.h>
 
 
 #define STEPS 2048
 #define UNLOCKTIME 5000
+
+extern LCD lcd;
 
 class Lock {
 public:
