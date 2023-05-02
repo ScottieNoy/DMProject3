@@ -30,7 +30,7 @@
 
 #define SS_PIN   5                                                   // RFID Pin (SDA)
 #define SCK_PIN  18                                                  // RFID Pin (SCK)
-#define RST_PIN  16                                                  // RFID Pin
+#define RST_PIN  17                                                  // RFID Pin
 
 // MOSI = 23, MISO = 19                                              // RFID Pin MOSI, MISO
 
@@ -41,8 +41,8 @@
 
 // ===================== WiFi Definitions ========================== //
 
-char* ssid = "homeweb";                                              // WiFi Name
-char* password = "Samuel42";                                         // WiFi Password
+char* ssid = "Oscar";                                              // WiFi Name
+char* password = "oscar12345";                                         // WiFi Password
 
 // ====================== Global Objects =========================== //
 
