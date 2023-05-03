@@ -7,9 +7,6 @@
 #include <SPI.h>
 #include <MFRC522.h>
 #include <LCD.h>
-#include <EEPROM.h>
-#define EEPROM_SIZE 20
-#define EEPROM_ADDR 0
 
 extern LCD lcd;
 
@@ -26,6 +23,10 @@ public:
     void addTag(byte *uid, int uidSize);
     bool tagAllowed(byte *uid, int uidSize);
     void updateAccess();
+    void halt();
+    String allowedTagsJSON();
+    String existingTagsJSON();
+    int getCount();
 private:
     int _custIns;
     byte _allowedTags[MAXTAGS][NUMBYTES];

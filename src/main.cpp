@@ -67,8 +67,8 @@ void setup() {                                                       // Setup
   lcd.writeLCD("Connected to", ssid);                                // Print to LCD
   delay(1000);                                                       // Wait 1000ms
   server.begin();                                                    // Start Server
-  Serial.println("Server Running");                                  // Print to Serial Monitor
-  lcd.writeLCD("Server Running:", "192.168.68.128");                 // Print to LCD *******NOT WORKING: CONVERTING wifi.getIP WRONG********
+  Serial.println("Server Running: " + wifi.getIP());                                  // Print to Serial Monitor
+  lcd.writeLCD("Server Running:", wifi.getIP());                 // Print to LCD *******NOT WORKING: CONVERTING wifi.getIP WRONG********
   delay(1000);                                                       // Wait 1000ms
 
 }

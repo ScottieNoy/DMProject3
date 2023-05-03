@@ -26,7 +26,15 @@ bool ConnectWiFi::isConnected()
     return WiFi.status() == WL_CONNECTED;
 }
 
-IPAddress ConnectWiFi::getIP()
+String ConnectWiFi::getIP()
 {
-    return WiFi.localIP();
+    return IpAddress2String(WiFi.localIP());
+}
+
+String ConnectWiFi::IpAddress2String(const IPAddress& ipAddress)
+{
+    return String(ipAddress[0]) + String(".") +
+           String(ipAddress[1]) + String(".") +
+           String(ipAddress[2]) + String(".") +
+           String(ipAddress[3]);
 }
