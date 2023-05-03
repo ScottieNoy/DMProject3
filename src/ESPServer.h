@@ -8,12 +8,13 @@
 #include <WiFiUdp.h>
 #include <NTPClient.h>
 #include <SPIFFS.h>
+#include <RFID.h>
 
 #define BUTTONTIMEOUT 15000             // defining the timeout for the button to be pressed in milliseconds (ms) (15 seconds)
 
 class ESPServer {                       // This is the ESPServer class.
 public:                                 // It has two public functions:
-  ESPServer(int port, Lock& lock);      // The constructor
+  ESPServer(int port, Lock& lock, RFID& rfid);      // The constructor
   void begin();                         // The begin function
   
   
@@ -21,9 +22,10 @@ public:                                 // It has two public functions:
 private:                                // It has three private fields:
   AsyncWebServer *_server;              // A pointer to an AsyncWebServer object
   Lock& _lock;                          // A reference to a Lock object
+  RFID& _rfid;                          // A reference to a RFID object
   
   
-  void generateHTML();                  // A private function to generate the HTML for the web page.
+  void addNewTag();
   
 };
 

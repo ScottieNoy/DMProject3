@@ -8,6 +8,15 @@ RFID::RFID(Lock& lock, int SS_PIN, int RST_PIN) : _rfid(SS_PIN, RST_PIN), _lock(
     _custIns = 0;
     SPI.begin();
     _rfid.PCD_Init();
+
+    EEPROM.begin(EEPROM_SIZE);
+
+    int addr = EEPROM_ADDR;
+    for (int i = 0; i < MAXTAGS; i++) {
+        for (int j = 0; j < NUMBYTES; j++) {
+            _allowedTags[i][j] = EEPROM.readByte(addr++);
+        }
+    }
 }
 
 
@@ -146,6 +155,15 @@ bool RFID::tagAllowed(byte *uid, int uidSize) {
 
 void RFID::grantAccess(byte *uid, int uidSize) {
   memcpy(_allowedTags[_custIns], uid, uidSize);
+
+  // Write _allowedTags array to EEPROM
+  int addr = EEPROM_ADDR;
+  for (int i = 0; i < MAXTAGS; i++) {
+      for (int j = 0; j < NUMBYTES; j++) {
+          EEPROM.writeByte(addr++, _allowedTags[i][j]);
+      }
+  }
+  EEPROM.commit();  // Save changes to EEPROM
 }
 
 void RFID::removeAccess(byte *uid, int uidSize) {
@@ -164,6 +182,14 @@ void RFID::removeAccess(byte *uid, int uidSize) {
       break;
     }
   }
+  // Write _allowedTags array to EEPROM
+  int addr = EEPROM_ADDR;
+  for (int i = 0; i < MAXTAGS; i++) {
+      for (int j = 0; j < NUMBYTES; j++) {
+          EEPROM.writeByte(addr++, _allowedTags[i][j]);
+      }
+  }
+  EEPROM.commit();  // Save changes to EEPROM
 }
 
 void RFID::updateAccess() {
@@ -176,25 +202,21 @@ void RFID::updateAccess() {
       Serial.print(getNUID(_rfid.uid.uidByte, _rfid.uid.size));
       lcd.write_TOP_LCD("UID tag: ");
       lcd.write_BOT_LCD(getNUID(_rfid.uid.uidByte, _rfid.uid.size));
-      delay(2000);
       if (findTag(_rfid.uid.uidByte, _rfid.uid.size)) {
         Serial.println("Sign out in order to remove access.");
         lcd.writeLCD("Sign out in order", "to remove access.");
         _rfid.PICC_HaltA();
         _rfid.PCD_StopCrypto1();
-        delay(2000);
         return;
       }
       if (tagAllowed(_rfid.uid.uidByte, _rfid.uid.size)) {
         removeAccess(_rfid.uid.uidByte, _rfid.uid.size);
         Serial.println("Key card removed.");
         lcd.writeLCD("Key card removed.", "");
-        delay(2000);
       } else {
         grantAccess(_rfid.uid.uidByte, _rfid.uid.size);
         Serial.println("Key card added.");
         lcd.writeLCD("Key card added.", "");
-        delay(2000);
       }
       _rfid.PICC_HaltA();
       _rfid.PCD_StopCrypto1();
@@ -204,5 +226,4 @@ void RFID::updateAccess() {
   }
   Serial.print("Time limit exceeded, press button again to add/remove access.");
   lcd.writeLCD("Time limit exceeded,", "press button again to add/remove access.");
-  delay(2000);
 }

@@ -7,6 +7,9 @@
 #include <SPI.h>
 #include <MFRC522.h>
 #include <LCD.h>
+#include <EEPROM.h>
+#define EEPROM_SIZE 20
+#define EEPROM_ADDR 0
 
 extern LCD lcd;
 

@@ -47,8 +47,8 @@ char* password = "oscar12345";                                         // WiFi P
 // ====================== Global Objects =========================== //
 
 Lock lock(stepsPerRevolultion, IN1, IN3, IN2, IN4);                  // Lock Object
-ESPServer server(80, lock);                                          // Server Object
-RFID rfid(lock,SS_PIN, RST_PIN);                                     // RFID Object
+RFID rfid(lock,SS_PIN, RST_PIN);                                    // RFID Object
+ESPServer server(80, lock, rfid);                                          // Server Object                                    // RFID Object
 Controls control(POT, BUTTON, lock, rfid);                           // Controls Object
 LCD lcd(LCD_ADDRESS, LCD_COLUMNS, LCD_ROWS);                         // LCD Object
 ConnectWiFi wifi;                                                    // WiFi Object
