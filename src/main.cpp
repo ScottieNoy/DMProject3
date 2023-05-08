@@ -47,8 +47,8 @@ char* password = "oscar12345";                                         // WiFi P
 // ====================== Global Objects =========================== //
 
 Lock lock(stepsPerRevolultion, IN1, IN3, IN2, IN4);                  // Lock Object
-ESPServer server(80, lock);                                          // Server Object
-RFID rfid(lock,SS_PIN, RST_PIN);                                     // RFID Object
+RFID rfid(lock,SS_PIN, RST_PIN);                                    // RFID Object
+ESPServer server(80, lock, rfid);                                          // Server Object                                    // RFID Object
 Controls control(POT, BUTTON, lock, rfid);                           // Controls Object
 LCD lcd(LCD_ADDRESS, LCD_COLUMNS, LCD_ROWS);                         // LCD Object
 ConnectWiFi wifi;                                                    // WiFi Object
@@ -67,8 +67,8 @@ void setup() {                                                       // Setup
   lcd.writeLCD("Connected to", ssid);                                // Print to LCD
   delay(1000);                                                       // Wait 1000ms
   server.begin();                                                    // Start Server
-  Serial.println("Server Running");                                  // Print to Serial Monitor
-  lcd.writeLCD("Server Running:", "192.168.68.128");                 // Print to LCD *******NOT WORKING: CONVERTING wifi.getIP WRONG********
+  Serial.println("Server Running: " + wifi.getIP());                                  // Print to Serial Monitor
+  lcd.writeLCD("Server Running:", wifi.getIP());                 // Print to LCD *******NOT WORKING: CONVERTING wifi.getIP WRONG********
   delay(1000);                                                       // Wait 1000ms
 
 }

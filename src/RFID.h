@@ -23,6 +23,10 @@ public:
     void addTag(byte *uid, int uidSize);
     bool tagAllowed(byte *uid, int uidSize);
     void updateAccess();
+    void halt();
+    String allowedTagsJSON();
+    String existingTagsJSON();
+    int getCount();
 private:
     int _custIns;
     byte _allowedTags[MAXTAGS][NUMBYTES];

@@ -10,7 +10,9 @@ class ConnectWiFi {
 public:
   void connect(char* ssid, char* password);
   bool isConnected();
-  IPAddress getIP();
+  String getIP();
+  String IpAddress2String(const IPAddress& ipAddress);
+
 
 private:
   char* ssid;
