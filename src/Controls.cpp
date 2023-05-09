@@ -5,7 +5,7 @@
 Controls::Controls(int potPin,int butPin, Lock& lock, RFID& rfid) : _rfid(rfid), _lock(lock){
     _potPin = potPin;
     _butPin = butPin;
-    pinMode(_butPin, INPUT);
+    pinMode(_butPin, INPUT_PULLDOWN);
 }
 
 void Controls::adjustMax(){

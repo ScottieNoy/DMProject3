@@ -36,7 +36,7 @@
 
 // ===================== Button Pin Definitions ==================== //
 
-#define BUTTON 39                                                    // Button Pin
+#define BUTTON 32                                                    // Button Pin
 #define POT    36                                                    // Potentiometer Pin
 
 // ===================== WiFi Definitions ========================== //
