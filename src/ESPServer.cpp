@@ -122,11 +122,11 @@ void ESPServer::begin() {                             // This function creates t
     html += "    btn.disabled = false;";
     html += "  }, " + String(BUTTONTIMEOUT) + ");";           // This is the timeout value. It is stored in the BUTTONTIMEOUT constant.
     html += "}";
-    html += "function addTag() {";
-    html += "  var xhr = new XMLHttpRequest();";
-    html += "  xhr.open('GET', '/add-tag', true);"; // This is the path that the server will listen to for adding a new tag.
-    html += "  xhr.send();";
-    html += "}";
+    // html += "function addTag() {";
+    // html += "  var xhr = new XMLHttpRequest();";
+    // html += "  xhr.open('GET', '/add-tag', true);"; // This is the path that the server will listen to for adding a new tag.
+    // html += "  xhr.send();";
+    // html += "}";
     html += "function updateTables() {";
     html += "  fetch('/authorized-tags')";
     html += "    .then(response => response.json())";
